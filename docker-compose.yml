@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+    rnative:
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
+            args:
+                ANDROID_BUILD_TOOLS_VERSION: ${ANDROID_BUILD_TOOLS_VERSION}
+                ANDROID_VERSION: ${ANDROID_VERSION}
+                GRADLE_VERSION: ${GRADLE_VERSION}
+                MAVEN_VERSION: ${MAVEN_VERSION}
+                NODE_VERSION: ${NODE_VERSION}
+                NPM_VERSION: ${NPM_VERSION}
+        volumes:
+            - ./:/app
+            - /dev/bus/usb:/dev/bus/usb
+        ports:
+            - 8081:8081 # rn port
+            - 5037:5037 # adb port
+        stdin_open: true
+        privileged: true
+        network_mode: host
+        env_file:
+            - versions.env
